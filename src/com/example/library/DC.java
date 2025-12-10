@@ -18,6 +18,7 @@ public class DC extends JPanel {
 	JButton bp = new JButton("+");
 	JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 50);
 	JLabel tv_Val = new JLabel();
+	JTextField etNaziv = new JTextField(30);
 	
 	public DC(int position) {
 		this.position = position;
@@ -30,8 +31,11 @@ public class DC extends JPanel {
 		add(slider);
 		add(bp);
 		
-		tv_Val.setFont(new Font("Monospaced", Font.BOLD, 16));
+		tv_Val.setFont(new Font("Monospaced", Font.BOLD, 14));
 		add(tv_Val);
+		
+		etNaziv.setFont(new Font("Monospace", Font.BOLD, 14));
+		add(etNaziv);
 	
 		cbEnable.addActionListener(new ActionListener() {
 			@Override
