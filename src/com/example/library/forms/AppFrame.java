@@ -32,7 +32,7 @@ public class AppFrame extends JFrame {
 		JPanel panel2 = createColoredPanel(Color.GREEN, "Panel 2");
 		JPanel panel3 = createColoredPanel(Color.BLUE, "Panel 3");
 		
-		panel2.add(new JButton("kita"));
+		panel2.add(new JButton("jbg"));
 		DmxChan ch1 = new DmxChan();
 		ch1.setVisible(true);
 		panel3.add(ch1);
