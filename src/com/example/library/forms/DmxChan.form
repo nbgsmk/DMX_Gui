@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.example.library.forms.DmxChan">
+  <grid id="27dc6" binding="contentPane" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="636" height="124"/>
+    </constraints>
+    <properties>
+      <background color="-360605"/>
+      <opaque value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="8215f" class="javax.swing.JCheckBox" binding="onOffCheckBox" default-binding="true">
+        <constraints/>
+        <properties>
+          <hideActionText value="false"/>
+          <horizontalAlignment value="10"/>
+          <horizontalTextPosition value="11"/>
+          <selected value="false"/>
+          <text value="on/off"/>
+          <verticalTextPosition value="0"/>
+        </properties>
+      </component>
+      <component id="1406c" class="javax.swing.JButton" binding="bMinus">
+        <constraints/>
+        <properties>
+          <text value="-"/>
+        </properties>
+      </component>
+      <component id="4527b" class="javax.swing.JSlider" binding="slider">
+        <constraints/>
+        <properties>
+          <maximum value="255"/>
+          <minorTickSpacing value="1"/>
+          <paintTicks value="false"/>
+          <paintTrack value="true"/>
+          <snapToTicks value="true"/>
+          <value value="127"/>
+        </properties>
+      </component>
+      <component id="6f9d0" class="javax.swing.JButton" binding="bPlus">
+        <constraints/>
+        <properties>
+          <text value="+"/>
+        </properties>
+      </component>
+      <component id="bd0fa" class="javax.swing.JTextField" binding="etVal">
+        <constraints/>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
