@@ -53,31 +53,13 @@ public class AppFrame extends JFrame implements ChValueListener {
 		chPublished.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(chPublished);
 		
-
-		
-		// jP.setLayout(new GridLayout(0, 1));
-		// for (int i = 22; i <= 25; i++) {
-		// 	jP.add(new DmxChan());
-		// }
-		// contentPane.add(jP);
-		
-		// JPanel panel1 = createColoredPanel(Color.RED, "Panel 1");
-		// JPanel panel2 = createColoredPanel(Color.GREEN, "Panel 2");
-		// JPanel panel3 = createColoredPanel(Color.BLUE, "Panel 3");
-		//
-		// panel2.add(new JButton("jbg"));
-		// DmxChan ch1 = new DmxChan();
-		// ch1.setVisible(true);
-		// panel3.add(ch1);
-		//
-		// contentPane.add(panel1);
-		// contentPane.add(panel2);
-		// contentPane.add(ch1);
-		// contentPane.add(panel3);
-		
 		
 		setContentPane(contentPane);
 		pack();
+		contentPane.revalidate();
+		revalidate();
+		repaint();
+		
 	}
 	
 	

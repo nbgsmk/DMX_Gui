@@ -13,9 +13,9 @@ public class DmxChan extends JPanel {
 	private JButton bMinus;
 	private JSlider slider;
 	private JButton bPlus;
-	private JLabel tvVal;
+	private JTextArea tvChnum;
 	private JTextField etOpis;
-	private JTextField textField1;
+	private JTextField tvVal;
 	
 	ChValueListener chValueListener;
 	private final int chNum;
@@ -27,6 +27,7 @@ public class DmxChan extends JPanel {
 	public DmxChan(ChValueListener listener, int chNum) {
 		this.chValueListener = listener;
 		this.chNum = chNum;
+		this.tvChnum.setText("ch:" + chNum);
 
 		tmp = slider.getValue();
 		setIt(tmp);
@@ -80,7 +81,8 @@ public class DmxChan extends JPanel {
 		} else {
 			chanValue = 0;
 		}
-		tvVal.setText("ch: " + String.format("% " + 2 + "d", chNum) + " = " + String.format("% " + 4 + "d", chanValue));
+		// tvChnum.setText("ch: " + String.format("% " + 2 + "d", chNum) + " = " + String.format("% " + 4 + "d", chanValue));
+		tvVal.setText(String.valueOf(chanValue));
 		if (chValueListener != null) {
 			chValueListener.onChValChange(chNum, chanValue);
 		}
