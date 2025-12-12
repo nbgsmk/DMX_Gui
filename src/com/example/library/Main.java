@@ -13,7 +13,7 @@ public class Main {
             public void run() {
 				AppFrame frame = new AppFrame();
 				
-				frame.pack();
+				// frame.pack();
 				frame.setVisible(true);
 				
             }

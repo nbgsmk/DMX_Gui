@@ -65,7 +65,7 @@ public class DmxChan extends JPanel {
 		});
 		setVisible(true);
 	
-		setBackground(Color.MAGENTA);
+		// setBackground(Color.MAGENTA);
 		bMinus.setText("jebem vam mater");
 		contentPane.add(bMinus);
 		bMinus.setVisible(true);

@@ -1,5 +1,7 @@
 package com.example.library;
 
+import com.example.library.forms.ChPublisher;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -9,7 +11,8 @@ import java.awt.event.ActionListener;
 
 public class DC extends JPanel {
 	
-	private final int position;
+	private ChPublisher publisher;
+	private final int chNum;
 	private int tmp;
 	private int chanValue;
 	
@@ -20,8 +23,9 @@ public class DC extends JPanel {
 	JLabel tv_Val = new JLabel();
 	JTextField etNaziv = new JTextField(30);
 	
-	public DC(int position) {
-		this.position = position;
+	public DC(ChPublisher publisher, int chNum) {
+		this.publisher = publisher;
+		this.chNum = chNum;
 		tmp = slider.getValue();
 		setIt(tmp);
 		
@@ -81,10 +85,13 @@ public class DC extends JPanel {
 		} else {
 			chanValue = 0;
 		}
-		tv_Val.setText("ch: " + String.format("% " + 2 + "d", position) + " = " + String.format("% " + 4 + "d", chanValue));
+		tv_Val.setText("ch: " + String.format("% " + 2 + "d", chNum) + " = " + String.format("% " + 4 + "d", chanValue));
+		if (publisher != null) {
+			publisher.onPub(chNum, chanValue);
+		}
+		
+		
 	}
 	
-	public int getChanValue() {
-		return chanValue;
-	}
+
 }

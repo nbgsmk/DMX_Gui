@@ -4,19 +4,19 @@ import com.example.library.DC;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
 
-public class AppFrame extends JFrame {
+public class AppFrame extends JFrame implements ChPublisher {
 	private JPanel contentPane;
 	
 	private JButton button1;
 	private JButton button2;
+	private ChPublisher publisher;
+	JLabel chPublished = new JLabel();
+
 	
 	public AppFrame() {
 		setTitle("DMX Tester Gui");
-		setLocation(100, 100);
+		setLocation(-900, 10);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(new GridLayout(0,1));	// any number of rows, exactly 1 column
 		
@@ -43,9 +43,20 @@ public class AppFrame extends JFrame {
 		contentPane.add(gore);
 		
 		for (int i = 1; i <= 16; i++) {
-			contentPane.add(new DC(i));
+			contentPane.add(new DC(this, i));
 		}
 		
+		chPublished.setFont(new Font("Monospaced", Font.BOLD, 20));
+		chPublished.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(chPublished);
+		
+
+		
+		// jP.setLayout(new GridLayout(0, 1));
+		// for (int i = 22; i <= 25; i++) {
+		// 	jP.add(new DmxChan());
+		// }
+		// contentPane.add(jP);
 		
 		// JPanel panel1 = createColoredPanel(Color.RED, "Panel 1");
 		// JPanel panel2 = createColoredPanel(Color.GREEN, "Panel 2");
@@ -77,7 +88,12 @@ public class AppFrame extends JFrame {
      panel.add(label);
      return panel;
  }
- 
- 
- 
+	
+	
+	@Override
+	public void onPub(int ch, int val) {
+		chPublished.setText("ch:" + ch + ", v:" + val);
+		System.out.println("ch:" + ch + ", v:" + val);
+		
+	}
 }
