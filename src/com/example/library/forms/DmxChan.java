@@ -15,7 +15,7 @@ public class DmxChan extends JPanel {
 	private JButton bPlus;
 	private JTextArea tvChnum;
 	private JTextField etOpis;
-	private JTextField tvVal;
+	private JTextField etVal;
 	
 	ChValueListener chValueListener;
 	private final int chNum;
@@ -50,6 +50,14 @@ public class DmxChan extends JPanel {
 			}
 		});
 
+		slider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				cbEnable.setSelected(true);
+				tmp = slider.getValue();
+				setIt(tmp);
+			}
+		});
 		
 		bPlus.addActionListener(new ActionListener() {
 			@Override
@@ -63,14 +71,40 @@ public class DmxChan extends JPanel {
 		});
 		
 		
-		slider.addChangeListener(new ChangeListener() {
+		etVal.addActionListener(new ActionListener() {
 			@Override
-			public void stateChanged(ChangeEvent e) {
-				cbEnable.setSelected(true);
-				tmp = slider.getValue();
-				setIt(tmp);
+			public void actionPerformed(ActionEvent e) {
+				// on press ENTER
+				if ((tmp > 0) && (tmp < 255)) {
+					String s = etVal.getText();
+					try {
+						tmp = Integer.parseInt(s);
+						cbEnable.setSelected(true);
+						slider.setValue(tmp);
+						setIt(tmp);
+					} catch (NumberFormatException exception) {
+						// nista
+					}
+				}
 			}
 		});
+		
+		// etVal.addFocusListener(new java.awt.event.FocusAdapter() {
+		// 	@Override
+		// 	public void focusLost(java.awt.event.FocusEvent e) {
+		// 		// on user leaving field
+		// 		if ((tmp > 0) && (tmp < 255)) {
+		// 			String s = etVal.getText();
+		// 			try {
+		// 				tmp = Integer.parseInt(s);
+		// 				cbEnable.setSelected(true);
+		// 				setIt(tmp);
+		// 			} catch (NumberFormatException exception) {
+		// 				// nista
+		// 			}
+		// 		}
+		// 	}
+		// });
 		
 	}
 	
@@ -81,8 +115,7 @@ public class DmxChan extends JPanel {
 		} else {
 			chanValue = 0;
 		}
-		// tvChnum.setText("ch: " + String.format("% " + 2 + "d", chNum) + " = " + String.format("% " + 4 + "d", chanValue));
-		tvVal.setText(String.valueOf(chanValue));
+		etVal.setText(String.valueOf(chanValue));
 		if (chValueListener != null) {
 			chValueListener.onChValChange(chNum, chanValue);
 		}
