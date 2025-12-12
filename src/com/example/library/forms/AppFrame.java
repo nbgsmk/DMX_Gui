@@ -1,16 +1,14 @@
 package com.example.library.forms;
 
-import com.example.library.DC;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class AppFrame extends JFrame implements ChPublisher {
+public class AppFrame extends JFrame implements ChValueListener {
 	private JPanel contentPane;
 	
 	private JButton button1;
 	private JButton button2;
-	private ChPublisher publisher;
+	private ChValueListener publisher;
 	JLabel chPublished = new JLabel();
 
 	
@@ -41,9 +39,14 @@ public class AppFrame extends JFrame implements ChPublisher {
 		gore.add(etPocetniKanal);
 		
 		contentPane.add(gore);
-		
+
+		// for (int i = 1; i <= 3; i++) {
+		// 	contentPane.add(new DC(this, i));
+		// }
+		//
 		for (int i = 1; i <= 16; i++) {
-			contentPane.add(new DC(this, i));
+			DmxChan dc = new DmxChan(this, i);
+			contentPane.add(dc.chPanel);
 		}
 		
 		chPublished.setFont(new Font("Monospaced", Font.BOLD, 20));
@@ -91,7 +94,7 @@ public class AppFrame extends JFrame implements ChPublisher {
 	
 	
 	@Override
-	public void onPub(int ch, int val) {
+	public void onChValChange(int ch, int val) {
 		chPublished.setText("ch:" + ch + ", v:" + val);
 		System.out.println("ch:" + ch + ", v:" + val);
 		

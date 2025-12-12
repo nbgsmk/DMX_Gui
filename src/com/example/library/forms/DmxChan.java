@@ -3,35 +3,49 @@ package com.example.library.forms;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 
 public class DmxChan extends JPanel {
-	public JPanel contentPane;
-	private JCheckBox onOffCheckBox;
+	
+	public JPanel chPanel;
+	private JCheckBox cbEnable;
 	private JButton bMinus;
 	private JSlider slider;
 	private JButton bPlus;
-	private JTextField etVal;
+	private JLabel tvVal;
+	private JTextField etOpis;
+	private JTextField textField1;
 	
-	private int chanValue = 0;
+	ChValueListener chValueListener;
+	private final int chNum;
 	
-	PropertyChangeListener pcl = new PropertyChangeListener() {
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
+	private int tmp;
+	private int chanValue;
+	
+	
+	public DmxChan(ChValueListener listener, int chNum) {
+		this.chValueListener = listener;
+		this.chNum = chNum;
+
+		tmp = slider.getValue();
+		setIt(tmp);
 		
-		}
-	};
-	
-	
-	public DmxChan() {
+		cbEnable.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setIt(tmp);
+			}
+		});
+		
 		bMinus.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				chanValue--;
+				if (tmp > 0) {
+					cbEnable.setSelected(true);
+					tmp--;
+					setIt(tmp);
+				}
 			}
 		});
 
@@ -39,7 +53,11 @@ public class DmxChan extends JPanel {
 		bPlus.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				chanValue++;
+				if (tmp < 255) {
+					cbEnable.setSelected(true);
+					tmp++;
+					setIt(tmp);
+				}
 			}
 		});
 		
@@ -47,32 +65,28 @@ public class DmxChan extends JPanel {
 		slider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				JSlider source = (JSlider) e.getSource();
-				if (!source.getValueIsAdjusting()) {
-					chanValue = source.getValue();
-				}
+				cbEnable.setSelected(true);
+				tmp = slider.getValue();
+				setIt(tmp);
 			}
 		});
-		
-		
-		etVal.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == etVal) {
-					chanValue = Integer.parseInt(etVal.getText());
-				}
-			}
-		});
-		setVisible(true);
-	
-		// setBackground(Color.MAGENTA);
-		bMinus.setText("jebem vam mater");
-		contentPane.add(bMinus);
-		bMinus.setVisible(true);
-		contentPane.setVisible(true);
-
 		
 	}
 	
 	
+	private void setIt(int val){
+		if (cbEnable.isSelected()) {
+			chanValue = val;
+		} else {
+			chanValue = 0;
+		}
+		tvVal.setText("ch: " + String.format("% " + 2 + "d", chNum) + " = " + String.format("% " + 4 + "d", chanValue));
+		if (chValueListener != null) {
+			chValueListener.onChValChange(chNum, chanValue);
+		}
+		
+		
+	}
+	
+
 }
