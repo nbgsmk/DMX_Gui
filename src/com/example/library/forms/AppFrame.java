@@ -1,8 +1,11 @@
 package com.example.library.forms;
 
+import com.example.library.COMWriter;
 import com.fazecast.jSerialComm.SerialPort;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,19 +17,18 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 
+
 public class AppFrame extends JFrame implements ChValueListener {
 	private JPanel appFrame;
 	
 	private JButton button1;
 	private JButton bConnectCom;
 	private JComboBox<String> cbxComPort;
-	private ChValueListener publisher;
 	JLabel chanValPublished = new JLabel();
 	
-	SerialPort[] comPortovi;
-	SerialPort izabran = null;
-	OutputStream os = null;
-	BufferedOutputStream bos = null;
+	JTextField etPocetniKanal;
+	
+	private COMWriter comWriter = null;
 
 	
 	public AppFrame() {
@@ -37,14 +39,7 @@ public class AppFrame extends JFrame implements ChValueListener {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				try {
-					os.flush();
-					os.close();
-				} catch (IOException ex) {
-					throw new RuntimeException(ex);
-				} finally {
-					izabran.closePort();
-				}
+				comWriter.close();
 				dispose();
 				System.exit(0);
 			}
@@ -53,7 +48,7 @@ public class AppFrame extends JFrame implements ChValueListener {
 		appFrame.setLayout(new GridLayout(0,1));	// any number of rows, exactly 1 column
 		
 		JTextField etNazivFixture = new JTextField(20);
-		JTextField etPocetniKanal = new JTextField(5);
+		etPocetniKanal = new JTextField(5);
 		JLabel tvNaz = new JLabel("Naziv fixture");
 		JLabel tvPocet = new JLabel("pocetni kanal");
 		
@@ -83,35 +78,46 @@ public class AppFrame extends JFrame implements ChValueListener {
 		chanValPublished.setHorizontalAlignment(SwingConstants.CENTER);
 		appFrame.add(chanValPublished);
 		
-		comPortovi = SerialPort.getCommPorts();
-		if (comPortovi.length == 0) {
-			System.out.println("No serial ports found.");
-			return;
+		SerialPort[] sviPortovi = SerialPort.getCommPorts();
+		if ((sviPortovi == null) || (sviPortovi.length == 0)) {
+			String s = "No serial ports found.";
+			System.out.println(s);
+			cbxComPort.addItem(s);
+			cbxComPort.setEnabled(false);
+			cbxComPort.setBackground(Color.RED);
 		} else {
-			for (int i = 0; i < comPortovi.length; i++) {
-				cbxComPort.addItem(comPortovi[i].getDescriptivePortName() + " " + comPortovi[i].getPortDescription());
+			cbxComPort.setEnabled(true);
+			cbxComPort.setBackground(Color.YELLOW);
+			for (int i = 0; i < sviPortovi.length; i++) {
+				cbxComPort.addItem(sviPortovi[i].getDescriptivePortName() + " " + sviPortovi[i].getPortDescription());
 			}
+			cbxComPort.addItem(" ... izaberi ... ");
+			cbxComPort.setSelectedIndex(sviPortovi.length);
 		}
-		
-		
-		setContentPane(appFrame);
-		pack();
 		
 		cbxComPort.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SerialPort[] sviPortovi = SerialPort.getCommPorts();
 				int i = cbxComPort.getSelectedIndex();
-				String s= (String) cbxComPort.getSelectedItem();
-				izabran = comPortovi[i];
-				if (izabran.openPort()) {
-					System.out.println(izabran.getSystemPortName() + ": opened");
+				comWriter = new COMWriter(sviPortovi[i]);
+				boolean stat = comWriter.open();
+				if (stat) {
+					cbxComPort.setEnabled(true);
+					cbxComPort.setBackground(Color.GREEN);
 				} else {
-					System.out.println(izabran.getSystemPortName() + ": error opening!");
+					comWriter.close();
+					comWriter = new COMWriter(sviPortovi[i]);
+					cbxComPort.setBackground(Color.RED);
 				}
-				os = izabran.getOutputStream();
-				bos = new BufferedOutputStream(os);
 			}
 		});
+		
+	
+		
+		setContentPane(appFrame);
+		pack();
+
 	}
 	
 	
@@ -119,24 +125,13 @@ public class AppFrame extends JFrame implements ChValueListener {
 	
 	@Override
 	public void onChValChange(int ch, int val) {
-		chanValPublished.setText("ch:" + ch + " = " + val);
+		String p = etPocetniKanal.getText();
+		int ofs = Integer.parseInt(p) - 1;	// FREEZE!! minus 1
+		chanValPublished.setText("ch:" + ch + " = " + val + "     (abs.ch:" + String.valueOf(ch+ofs) + ")" );
 		System.out.println("ch:" + ch + " = " + val);
-		if (izabran != null) {
-			byte[] data = new byte[4];
-			try {
-				data[0] = 0;
-				data[1] = (byte) ch;
-				data[2] = (byte) 0;
-				data[3] = (byte) val;
-				bos.write(data);
-				bos.flush();
-				System.out.println("sent \"" + Arrays.toString(data) + "\"");
-			} catch (IOException e) {
-				System.out.println(izabran.getSystemPortName() + ": error sending char \"." + Arrays.toString(data) + "\"" + " " + e.getMessage());
-			}
-			
+		if (comWriter != null) {
+			comWriter.write(ch+ofs, val);
 		}
-		
 		
 	}
 }
