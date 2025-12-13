@@ -8,7 +8,7 @@ import java.awt.event.*;
 
 public class DmxChan extends JPanel {
 	
-	public JPanel chPanel;
+	public JPanel panel;
 	private JCheckBox cbEnable;
 	private JButton bMinus;
 	private JSlider slider;
