@@ -33,7 +33,7 @@ public class COMWriter {
 		if (port != null) {
 			try {
 				data = new byte[4];
-				data[0] = 0;
+				data[0] = (byte) ((chan > 255) ? (chan>>8) : (0) );
 				data[1] = (byte) chan;
 				data[2] = (byte) 0;
 				data[3] = (byte) val;
