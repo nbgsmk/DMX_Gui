@@ -4,25 +4,18 @@ import com.example.library.COMWriter;
 import com.fazecast.jSerialComm.SerialPort;
 
 import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-
 
 
 public class AppFrame extends JFrame implements ChValueListener {
 	private JPanel appFrame;
 	
-	private JButton button1;
-	private JButton bConnectCom;
+	private JButton bSendBreak;
+	private JButton bCloseCom;
 	private JComboBox<String> cbxComPort;
 	JLabel chanValPublished = new JLabel();
 	
@@ -47,7 +40,7 @@ public class AppFrame extends JFrame implements ChValueListener {
 		
 		appFrame.setLayout(new GridLayout(0,1));	// any number of rows, exactly 1 column
 		
-		JTextField etNazivFixture = new JTextField(20);
+		JTextField etNazivFixture = new JTextField(30);
 		etPocetniKanal = new JTextField(5);
 		JLabel tvNaz = new JLabel("Naziv fixture");
 		JLabel tvPocet = new JLabel("pocetni kanal");
@@ -113,10 +106,35 @@ public class AppFrame extends JFrame implements ChValueListener {
 			}
 		});
 		
+		
+		bCloseCom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (comWriter.isOpen()) {
+					comWriter.close();
+				} else {
+					comWriter.open();
+				}
+				if (comWriter.isOpen()) {
+					cbxComPort.setBackground(Color.GREEN);
+				} else {
+					cbxComPort.setBackground(Color.RED);
+				}
+			}
+		});
+		
+		bSendBreak.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				comWriter.sendBreak();
+			}
+		});
 	
 		
 		setContentPane(appFrame);
 		pack();
+		
+		
 
 	}
 	

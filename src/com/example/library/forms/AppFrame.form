@@ -30,21 +30,27 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="c58e" class="javax.swing.JButton" binding="button1" default-binding="true">
+              <component id="b992c" class="javax.swing.JButton" default-binding="true">
                 <constraints/>
                 <properties>
                   <text value="Button"/>
                 </properties>
               </component>
-              <component id="f7c8" class="javax.swing.JButton" binding="bConnectCom">
-                <constraints/>
-                <properties>
-                  <text value="Com:"/>
-                </properties>
-              </component>
               <component id="d4c3c" class="javax.swing.JComboBox" binding="cbxComPort">
                 <constraints/>
                 <properties/>
+              </component>
+              <component id="f7c8" class="javax.swing.JButton" binding="bCloseCom">
+                <constraints/>
+                <properties>
+                  <text value="Open/Close COM"/>
+                </properties>
+              </component>
+              <component id="c58e" class="javax.swing.JButton" binding="bSendBreak">
+                <constraints/>
+                <properties>
+                  <text value="Send BREAK (4x 0xff)"/>
+                </properties>
               </component>
             </children>
           </toolbar>

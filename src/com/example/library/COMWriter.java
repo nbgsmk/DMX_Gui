@@ -47,7 +47,23 @@ public class COMWriter {
 		
 	}
 	
-	public void close(){
+	
+	public void sendBreak(){
+		if (port != null) {
+			try {
+				byte[] brejk = { (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff };
+				bos.write(brejk);
+				bos.flush();
+				System.out.println("sent \"0xff 0xff 0xff 0xff\"");
+			} catch (IOException e) {
+				System.out.println(port.getSystemPortName() + ": error sending char \"." + Arrays.toString(data) + "\"" + " " + e.getMessage());
+			}
+			
+		}
+	}
+	
+	public boolean close(){
+		boolean rezultat = true;
 		try {
 			if (bos != null) {
 				bos.flush();
@@ -56,9 +72,14 @@ public class COMWriter {
 		} catch (IOException ex) {
 			// throw new RuntimeException(ex);
 		} finally {
-			port.closePort();
+			rezultat = port.closePort();
+			System.out.println(port.getSystemPortName() + ": try/catch/{finally -> should be closed now}");
 		}
-		
+		return rezultat;
+	}
+	
+	public boolean isOpen(){
+		return port.isOpen();
 	}
 	
 }
