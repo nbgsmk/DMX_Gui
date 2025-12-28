@@ -1,6 +1,7 @@
 package cc.kostic.dmx.dmx_gui2;
 
 import com.fazecast.jSerialComm.SerialPort;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-
+@Component
 public class AppFrame extends JFrame implements ChValueListener {
 	private JPanel appFrame;
 	

@@ -1,11 +1,14 @@
 package cc.kostic.dmx.dmx_gui2;
 
+import org.springframework.stereotype.Component;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@Component
 public class DmxChan extends JPanel {
 	
 	public JPanel panel;
