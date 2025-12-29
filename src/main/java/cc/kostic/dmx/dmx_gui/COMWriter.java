@@ -1,4 +1,4 @@
-package cc.kostic.dmx.dmx_gui2;
+package cc.kostic.dmx.dmx_gui;
 
 import com.fazecast.jSerialComm.SerialPort;
 

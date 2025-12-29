@@ -1,6 +1,4 @@
-package cc.kostic.dmx.dmx_gui2;
-
-import org.springframework.stereotype.Component;
+package cc.kostic.dmx.dmx_gui;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

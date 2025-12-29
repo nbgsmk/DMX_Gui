@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cc.kostic.dmx</groupId>
-	<artifactId>DMX_Gui2</artifactId>
+	<artifactId>DMX_Gui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>DMX_Gui2</name>
-	<description>DMX_Gui2</description>
+	<name>DMX_Gui</name>
+	<description>DMX_Gui</description>
 	<url/>
 	<licenses>
 		<license/>

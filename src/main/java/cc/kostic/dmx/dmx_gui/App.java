@@ -1,6 +1,5 @@
-package cc.kostic.dmx.dmx_gui2;
+package cc.kostic.dmx.dmx_gui;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,6 +10,7 @@ import java.awt.*;
 public class App {
 	
 	public static void main(String[] args) {
+		System.out.println("\n");
 		System.out.println("--- JVM Version Information ---");
 		System.out.println("java.version: " + System.getProperty("java.version"));
 		System.out.println("java.vm.version: " + System.getProperty("java.vm.version"));
