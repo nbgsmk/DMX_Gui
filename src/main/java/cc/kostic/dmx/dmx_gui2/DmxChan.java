@@ -8,7 +8,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-@Component
 public class DmxChan extends JPanel {
 	
 	public JPanel panel;

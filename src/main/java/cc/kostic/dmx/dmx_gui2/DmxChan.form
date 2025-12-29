@@ -47,6 +47,8 @@
             </constraints>
             <properties>
               <columns value="5"/>
+              <editable value="false"/>
+              <enabled value="true"/>
               <font size="16" style="1"/>
               <text value="ch"/>
             </properties>

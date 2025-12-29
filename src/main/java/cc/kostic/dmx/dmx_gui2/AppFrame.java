@@ -64,7 +64,7 @@ public class AppFrame extends JFrame implements ChValueListener {
 		
 		appFrame.add(gore);
 		
-		for (int i = 1; i <= 16; i++) {
+		for (int i = 1; i <= 20; i++) {
 			DmxChan dc = new DmxChan(this, i);
 			appFrame.add(dc.panel);
 		}
@@ -148,6 +148,7 @@ public class AppFrame extends JFrame implements ChValueListener {
 		String p = etPocetniKanal.getText();
 		int ofs = Integer.parseInt(p) - 1;	// FREEZE!! minus 1
 		chanValPublished.setText("ch:" + ch + " = " + val + "     (abs.ch:" + String.valueOf(ch+ofs) + ")" );
+		// chanValPublished.setText("ch:" + ch + " (abs.ch:" + String.valueOf(ch+ofs) + ") = " + val );
 		System.out.println("ch:" + ch + " = " + val);
 		if (comWriter != null) {
 			comWriter.write(ch+ofs, val);
