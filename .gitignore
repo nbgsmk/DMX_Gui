@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### my custom artifact folder stuff
+/jar_artifact/jdk-*

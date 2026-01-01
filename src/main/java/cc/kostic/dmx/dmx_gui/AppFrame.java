@@ -9,11 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.prefs.Preferences;
 
 @Component
 public class AppFrame extends JFrame implements ChValueListener {
 	private JPanel appFrame;
-	
+
+	private final Preferences prefs = Preferences.userNodeForPackage(AppFrame.class);
+	private final String wposx = "window-position-x";
+	private final String wposy = "window-position-y";
+
 	private JButton bSendBreak;
 	private JButton bCloseCom;
 	private JComboBox<String> cbxComPort;
@@ -26,19 +31,12 @@ public class AppFrame extends JFrame implements ChValueListener {
 	
 	public AppFrame() {
 		setTitle("DMX Tester Gui");
-		setLocation(-900, 10);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				if (comWriter != null) {
-					comWriter.close();
-				}
-				dispose();
-				System.exit(0);
-			}
-		});
+		int xpos = prefs.getInt(wposx, 0);
+		int ypos = prefs.getInt(wposy, 0);
+		if (isLocationOnScreen(xpos, ypos)) {
+			setLocation(xpos, ypos);
+		}
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		appFrame.setLayout(new GridLayout(0,1));	// any number of rows, exactly 1 column
 		
@@ -131,17 +129,20 @@ public class AppFrame extends JFrame implements ChValueListener {
 				comWriter.sendBreak();
 			}
 		});
-	
-		
+
 		setContentPane(appFrame);
 		pack();
-		
-		
 
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				closeCom();
+				saveWindowPos();
+			}
+		});
 	}
-	
-	
-	
+
+
 	
 	@Override
 	public void onChValChange(int ch, int val) {
@@ -153,6 +154,47 @@ public class AppFrame extends JFrame implements ChValueListener {
 		if (comWriter != null) {
 			comWriter.write(ch+ofs, val);
 		}
-		
 	}
+
+
+	/// //////////////////
+	/// //////////////////
+	// cleanup
+	/// /////////////////
+	/// /////////////////
+
+
+	public boolean isLocationOnScreen(int x, int y) {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] screens = ge.getScreenDevices();
+
+		for (GraphicsDevice screen : screens) {
+			// bounds includes the screen's x,y offset in a multi-monitor setup
+			Rectangle bounds = screen.getDefaultConfiguration().getBounds();
+			if (bounds.contains(x, y)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * close com port if any is open
+	 */
+	private void closeCom(){
+		if (comWriter != null) {
+			comWriter.close();
+		}
+	}
+
+	/**
+	 * save app window position on exit
+	 */
+	private void saveWindowPos(){
+		prefs.putInt(wposx, getX());
+		prefs.putInt(wposy, getY());
+	}
+
+
 }

@@ -25,10 +25,9 @@ public class App {
 		
 		// Run the GUI on the Event Dispatch Thread
 		EventQueue.invokeLater(() -> {
-			// GT frame = ctx.getBean(GT.class);
 			AppFrame frame = ctx.getBean(AppFrame.class);
 			frame.setVisible(true);
 		});
 	}
-	
+
 }
